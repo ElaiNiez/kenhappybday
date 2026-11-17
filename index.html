@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday Ken</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&family=Playfair+Display:ital,wght@0,500;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/site.css" />
+    <link rel="stylesheet" href="css/photobooth.css" />
+</head>
+<body>
+    <div id="progress"></div>
+    <canvas id="confetti"></canvas>
+    <div id="hearts"></div>
+
+    <audio id="bgm" loop preload="auto">
+        <source src="audio/song.mp3" type="audio/mpeg" />
+    </audio>
+
+    <!-- ENTER SCREEN -->
+    <div id="enter-screen">
+        <div class="enter-box">
+            <div class="enter-heart">🐥</div>
+            <h1>Happy Birthday, chicKen</h1>
+            <p>I made something for you. Turn your volume up a little 💛</p>
+            <button id="enter-btn">Tap to open</button>
+        </div>
+    </div>
+
+    <!-- MUSIC BUTTON -->
+    <button id="music-btn" class="music-btn" aria-label="Toggle music">🎵</button>
+
+    <!-- HERO -->
+    <section class="hero" style="background-image: linear-gradient(rgba(26,9,20,.45), rgba(26,9,20,.85)), url('images/hero.jpg');">
+        <div class="hero-content">
+            <p class="hero-small reveal">Today is all about you</p>
+            <h1 class="hero-title"><span id="typed" data-text="Happy Birthday, Ken"></span><span class="cursor">|</span></h1>
+            <p class="hero-sub reveal">my <span class="nick">chicKen</span> 🐥 · our 3rd birthday together 🎂</p>
+            <a href="#counter" class="scroll-hint">↓</a>
+        </div>
+    </section>
+
+    <!-- COUNTER -->
+    <section id="counter" class="block">
+        <h2 class="section-title reveal">Time we’ve been together</h2>
+        <div class="counter reveal" data-since="2024-10-05T00:00:00">
+            <div class="count-box"><span id="c-days">0</span><small>Days</small></div>
+            <div class="count-box"><span id="c-hours">0</span><small>Hours</small></div>
+            <div class="count-box"><span id="c-mins">0</span><small>Minutes</small></div>
+            <div class="count-box"><span id="c-secs">0</span><small>Seconds</small></div>
+        </div>
+        <p class="counter-note reveal">…and I’d choose you in every one of them 💛</p>
+    </section>
+
+    <!-- OUR STORY -->
+    <section class="block">
+        <h2 class="section-title reveal">Our story</h2>
+        <div class="timeline" id="timeline"></div>
+    </section>
+
+    <!-- REASONS -->
+    <section class="block">
+        <h2 class="section-title reveal">Reasons I love you</h2>
+        <p class="section-sub reveal">Tap a card to flip it</p>
+        <div class="reasons" id="reasons"></div>
+    </section>
+
+    <!-- OUR MEMORIES: PHOTOBOOTH -->
+    <section class="block">
+        <h2 class="section-title reveal">Our memories</h2>
+        <p class="section-sub reveal">Our photobooth moments · tap a photo to snap it open 📸</p>
+        <div class="pb-controls reveal">
+            <button id="pb-shake" class="ghost-btn">🎲 Shake the board</button>
+        </div>
+        <div class="pb-board" id="pb-board"></div>
+    </section>
+
+    <!-- hidden pool of gallery photos used by Memory Match -->
+    <div hidden id="gallery-pool"></div>
+
+    <!-- MEMORY MATCH GAME -->
+    <section id="game-section" class="block">
+        <h2 class="section-title reveal">Match our memories</h2>
+        <p class="section-sub reveal">Flip the cards and find the pairs</p>
+        <div class="mm-info reveal">
+            Moves: <b id="mm-moves">0</b> &nbsp;·&nbsp; Pairs: <b id="mm-pairs">0</b>/<b id="mm-total">0</b>
+            &nbsp; <button id="mm-restart" class="ghost-btn">Restart ↺</button>
+        </div>
+        <div id="mm-grid" class="mm-grid"></div>
+        <p id="mm-win" class="mm-win"></p>
+    </section>
+
+    <!-- TAP THE CHICK -->
+    <section class="block">
+        <h2 class="section-title reveal">Tap chicKen</h2>
+        <p class="section-sub reveal">He has a lot of love notes for you</p>
+        <div class="chick-stage reveal">
+            <button id="chick" class="chick" aria-label="Tap the chick">🐥</button>
+            <div id="chick-bubble" class="chick-bubble">Tap me for a love note 💛</div>
+            <p class="chick-count">Love notes opened: <b id="chick-n">0</b></p>
+        </div>
+        <ul id="notes-list" hidden></ul>
+    </section>
+
+    <!-- CAKE -->
+    <section class="block">
+        <h2 class="section-title reveal">Make a wish</h2>
+        <div class="cake-wrap reveal" data-nick="chicKen">
+            <div class="cake" id="cake">
+                <div class="candles">
+                    <div class="candle"><i class="flame"></i></div>
+                    <div class="candle"><i class="flame"></i></div>
+                    <div class="candle"><i class="flame"></i></div>
+                </div>
+                <div class="layer l2"></div>
+                <div class="layer l1"></div>
+                <div class="plate"></div>
+            </div>
+            <button id="blow-btn" class="wish-btn">💨 Blow the candles</button>
+            <p id="cake-msg" class="cake-msg">Close your eyes, make a wish, then blow the candles…</p>
+        </div>
+    </section>
+
+    <!-- LETTER -->
+    <section class="block">
+        <h2 class="section-title reveal">A letter for you</h2>
+        <p class="letter-hint reveal">Tap the envelope</p>
+        <div class="envelope-wrap reveal">
+            <div class="envelope" id="envelope">
+                <div class="env-back"></div>
+                <div class="env-paper"></div>
+                <div class="env-front"></div>
+                <div class="env-flap"></div>
+                <div class="env-seal">❤</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LETTER MODAL -->
+    <div id="letter-modal" class="letter-modal">
+        <div class="letter-paper">
+            <button id="letter-close" class="letter-close" aria-label="Close">✕</button>
+            <div class="letter-scroll" id="letter-scroll">
+                <div class="letter-text" id="letter-text"></div>
+            </div>
+            <div class="letter-actions">
+                <button id="skip-btn" class="ghost-btn">Skip ⏩</button>
+                <button id="replay-btn" class="ghost-btn" hidden>Replay ↺</button>
+                <button id="wish-btn" class="wish-btn" hidden>🎂 Celebrate</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>Made with all my love, just for you, chicKen 💛</p>
+    </footer>
+
+    <!-- OLD LIGHTBOX (kept so site.js keeps working) -->
+    <div id="lightbox" class="lightbox">
+        <button class="lb-close" id="lb-close">✕</button>
+        <button class="lb-nav lb-prev" id="lb-prev">‹</button>
+        <img id="lb-img" src="" alt="" />
+        <button class="lb-nav lb-next" id="lb-next">›</button>
+        <div class="lb-count" id="lb-count"></div>
+    </div>
+
+    <!-- PHOTOBOOTH FLASH + VIEWER -->
+    <div id="pb-flash"></div>
+
+    <div id="pb-viewer" class="pb-viewer">
+        <button class="pb-x" id="pb-close" aria-label="Close">✕</button>
+        <button class="pb-arrow pb-left" id="pb-prev" aria-label="Previous">‹</button>
+        <button class="pb-arrow pb-right" id="pb-next" aria-label="Next">›</button>
+
+        <div class="pb-stage">
+            <div class="pb-frame">
+                <img id="pb-img" src="" alt="" data-f="orig" />
+            </div>
+            <div class="pb-counter" id="pb-counter"></div>
+
+            <div class="pb-filters">
+                <button class="pb-filter active" data-f="orig">Original</button>
+                <button class="pb-filter" data-f="vintage">Vintage</button>
+                <button class="pb-filter" data-f="bw">B&amp;W</button>
+                <button class="pb-filter" data-f="pink">Pink</button>
+                <button class="pb-filter" data-f="gold">Golden</button>
+                <button class="pb-filter pb-snap" id="pb-snap">📸 Snap</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/build.js"></script>
+    <script src="js/site.js"></script>
+    <script src="js/photobooth.js"></script>
+</body>
+</html>
